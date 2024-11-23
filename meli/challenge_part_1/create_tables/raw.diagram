@@ -1,0 +1,82 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table customers {
+  customer_id serial [primary key]
+  e_mail string
+  name string
+  last_name string
+  gender string
+  birth_date date
+  is_active bool
+  creation_date timestamp
+  update_date timestamp
+}
+
+Table sellers {
+  seller_id serial [primary key]  
+  customer_id integer
+  store_name string
+
+}
+
+Table adresses {
+  adress_id serial [primary key]
+  customer_id integer 
+  label string //Identificação dos múltiplos endereços de um cliente 
+  street string
+  number integer
+  complement string
+  neighborhood string
+  state string
+  zip_code integer
+  country string
+  creation_date timestamp
+  
+}
+
+Table items {
+  item_id serial [primary key]
+  seller_id integer
+  item_name string
+  description string
+  category_id integer
+  amount float
+  available_quantity integer
+  create_date timestamp
+  updated_date timestamp
+  end_date timestamp
+}
+
+Table categories {
+  category_id serial [primary key]
+  category_name string
+  path string 
+  description string
+  creation_date timestamp
+  update_date timestamp
+}
+
+
+Table orders {
+  order_id serial [primary key]
+  item_id integer
+  customer_id integer
+  amount float
+  status string
+  creation_date timestamp
+  update_date timestamp
+}
+
+
+Ref: customers.customer_id < adresses.customer_id
+
+Ref: sellers.seller_id > customers.customer_id 
+
+Ref: sellers.seller_id < items.seller_id
+
+Ref: items.category_id > categories.category_id
+
+Ref: items.item_id - orders.item_id
+
+Ref: customers.customer_id < orders.customer_id
